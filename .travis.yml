@@ -3,9 +3,14 @@ rust:
   - stable
   - beta
   - nightly
+install:
+  - rustup component add rustfmt
+  - rustup component add clippy
 matrix: 
   allow_failures:
   - rust: nightly
 script:
+  - cargo fmt -- --check
+  - touch ./src/main.rs && touch ./src/lib.rs && cargo clippy -- -D warnings
   - cargo build --verbose --all
   - cargo test --verbose --all
